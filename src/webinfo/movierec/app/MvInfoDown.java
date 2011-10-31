@@ -8,7 +8,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class PageDowload {
+public class MvInfoDown {
+	/*
+	 * For test only
+	 */
 	public static String getPage(String u) throws IOException {
 		URL url = new URL(u);
 		URLConnection yc = url.openConnection();
@@ -22,7 +25,13 @@ public class PageDowload {
 		in.close();
 		return content;
 	}
-	public static MovieInfo grabInfo(String url) throws IOException
+	/*
+	 * grab movie info from given url
+	 * para: url of the movie
+	 * return: MovieInfoCls structure contains the info of the movie
+	 * TO DO: exceptions processing
+	 */
+	public static MovieInfoCls grabInfo(String url) throws IOException
 	{	
 		Document doc = Jsoup.connect(url).userAgent("Mozilla/4.76").get();
 		Element e_overview=doc.getElementById("overview-top");
@@ -32,7 +41,7 @@ public class PageDowload {
 		Elements e_des=e_overview.getElementsByAttributeValue("itemprop", "description");
 		Elements e_director=e_overview.getElementsByAttributeValue("itemprop", "director");
 		Elements boxinfos=e_overview.getElementsByClass("txt-block");
-		MovieInfo info=new MovieInfo();
+		MovieInfoCls info=new MovieInfoCls();
 		if (boxinfos!=null)
 		{
 			for (Element e:boxinfos)

@@ -1,6 +1,6 @@
 package webinfo.movierec.app;
 
-public class MovieInfo {
+public class MovieInfoCls {
 	public String name="?";
 	public String year="?";
 	public String rate="?";
