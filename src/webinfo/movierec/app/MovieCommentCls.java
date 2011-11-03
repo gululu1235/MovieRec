@@ -18,4 +18,9 @@ public class MovieCommentCls {
 	{
 		cmtStar=s;
 	}
+	
+	public void printBrief()
+	{
+		System.out.println(cmtTitle);
+	}
 }

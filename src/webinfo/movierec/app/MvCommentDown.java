@@ -53,7 +53,7 @@ public class MvCommentDown {
 			
 			Element cmtMain=eCmts.get(2*i+1+gap);
 			info.cmtContent=cmtMain.text();
-			
+			info.printBrief();
 			cmtList.add(info);
 			
 		}

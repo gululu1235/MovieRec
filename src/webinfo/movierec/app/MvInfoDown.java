@@ -34,14 +34,27 @@ public class MvInfoDown {
 	public static MovieInfoCls grabInfo(String url) throws IOException
 	{	
 		Document doc = Jsoup.connect(url).userAgent("Mozilla/4.76").get();
+		MovieInfoCls info=new MovieInfoCls();
+		
 		Element e_overview=doc.getElementById("overview-top");
-		Elements e_rate=e_overview.getElementsByClass("star-box-giga-star");		
+		Elements e_rate=e_overview.getElementsByClass("star-box-giga-star");	
+		//get review numbers
+		Elements e_sbdetails=e_overview.getElementsByClass("star-box-details");
+		Elements e_makereviews=e_sbdetails.first().getElementsByAttributeValue("href","reviews-enter");
+		Elements e_reviews=e_sbdetails.first().getElementsByAttributeValue("href","reviews");
+		if (e_makereviews.size()>0||e_reviews==null){ //no reviews
+			info.numReviews=0;
+		}
+		else{
+			Elements e_reviewNum=e_reviews.first().getElementsByAttributeValue("itemprop", "reviewCount");
+			info.numReviews=Integer.parseInt(e_reviewNum.first().text());		
+		}
 		Elements e_nameyear=e_overview.getElementsByAttributeValue("itemprop", "name");
 		
 		Elements e_des=e_overview.getElementsByAttributeValue("itemprop", "description");
 		Elements e_director=e_overview.getElementsByAttributeValue("itemprop", "director");
 		Elements boxinfos=e_overview.getElementsByClass("txt-block");
-		MovieInfoCls info=new MovieInfoCls();
+		
 		if (boxinfos!=null)
 		{
 			for (Element e:boxinfos)
@@ -70,7 +83,7 @@ public class MvInfoDown {
 	public static void main(String[] args) {
 		
 		try {
-			grabInfo("http://www.imdb.com/title/tt1521197/").printInfo();
+			grabInfo("http://www.imdb.com/title/tt1778304/").printInfo();
 
 		} catch (IOException e) {
 
