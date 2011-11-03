@@ -33,19 +33,25 @@ public class MvCommentDown {
 		int viewCount=Integer.parseInt(eCmtCount.text().split(" ")[0]);
 		Elements eCmts=doc.getElementsByTag("p");
 		ArrayList<MovieCommentCls> cmtList=new ArrayList<MovieCommentCls>();
+		int gap=0;
+		while (eCmts.get(gap).text().indexOf("review useful")<0)
+			gap++;
 		for (int i=0;i<viewCount;i++)
 		{
 			MovieCommentCls info=new MovieCommentCls();
 			
-			Element cmtTSU=eCmts.get(2*i+1);
+			Element cmtTSU=eCmts.get(2*i+gap);
 			Element cmtTitle=cmtTSU.getElementsByTag("b").first();
 			Element cmtStar=cmtTSU.getElementsByTag("img").first();
 			Element cmtUser=cmtTSU.getElementsByTag("a").first();
-			info.cmtTitle=cmtTitle.text();
-			info.parseStar(cmtStar.html());
-			info.parseUserInfo(cmtUser.html());
+			if (cmtTitle!=null)
+				info.cmtTitle=cmtTitle.text();
+			if (cmtStar!=null)
+				info.parseStar(cmtStar.attr("alt"));
+			if (cmtUser!=null)
+				info.parseUserInfo(cmtUser.attr("href"),cmtUser.text());
 			
-			Element cmtMain=eCmts.get(2*i+2);
+			Element cmtMain=eCmts.get(2*i+1+gap);
 			info.cmtContent=cmtMain.text();
 			
 			cmtList.add(info);
